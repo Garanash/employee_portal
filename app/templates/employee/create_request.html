@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} | Create New Request{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Create New Request</h2>
+    
+    <form method="post">
+        <div class="mb-3">
+            <label for="request_type" class="form-label">Request Type</label>
+            <select class="form-select" id="request_type" name="request_type" required>
+                <option value="" selected disabled>Select request type</option>
+                {% for type in types %}
+                    <option value="{{ type }}">{{ type|title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save as Draft</button>
+        <a href="/employee/requests" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

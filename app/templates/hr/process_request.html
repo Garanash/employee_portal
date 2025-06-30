@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} | Process Request #{{ req.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Process Request #{{ req.id }}</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            Request Details
+        </div>
+        <div class="card-body">
+            <p><strong>Employee:</strong> {{ req.owner.full_name }}</p>
+            <p><strong>Type:</strong> {{ req.type|title }}</p>
+            <p><strong>Content:</strong> {{ req.content }}</p>
+            {% if req.manager_comment %}
+            <p><strong>Manager Comment:</strong> {{ req.manager_comment }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <form method="post">
+        <div class="mb-3">
+            <label for="comment" class="form-label">HR Comment</label>
+            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Mark as Completed</button>
+        <a href="/hr/requests/{{ req.id }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

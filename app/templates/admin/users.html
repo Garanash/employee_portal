@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %} | Users Management{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Users Management</h2>
+    
+    <div class="mb-3">
+        <a href="/admin/users/new" class="btn btn-primary">Add New User</a>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.department }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        {% if user.is_active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/admin/users/{{ user.id }}" class="btn btn-sm btn-primary">Edit</a>
+                        {% if user.id != user.id %}
+                            <form action="/admin/users/{{ user.id }}/delete" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

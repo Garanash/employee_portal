@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} | Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Admin Dashboard</h2>
+    <p>Welcome, {{ user.full_name }} (Admin)</p>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_users }}</h5>
+                    <p class="card-text">Registered in the system</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Active Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ active_users }}</h5>
+                    <p class="card-text">Currently active</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Quick Actions</div>
+                <div class="card-body">
+                    <a href="/admin/users" class="btn btn-light mb-2">Manage Users</a>
+                    <a href="/admin/departments" class="btn btn-light">Manage Departments</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

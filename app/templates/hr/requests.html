@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %} | HR Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>HR Requests</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Employee</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.type }}</td>
+                    <td>{{ req.owner.full_name }}</td>
+                    <td>
+                        {% if req.status == "approved" %}
+                            <span class="badge bg-success">Approved</span>
+                        {% elif req.status == "completed" %}
+                            <span class="badge bg-info">Completed</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ req.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ req.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="/hr/requests/{{ req.id }}" class="btn btn-sm btn-primary">View</a>
+                        {% if req.status == "approved" %}
+                            <a href="/hr/requests/{{ req.id }}/process" class="btn btn-sm btn-success">Process</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

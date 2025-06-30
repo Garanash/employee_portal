@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %} | My Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>My Requests</h2>
+    
+    <div class="mb-3">
+        <a href="/employee/requests/new" class="btn btn-primary">Create New Request</a>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.type }}</td>
+                    <td>
+                        {% if req.status == "draft" %}
+                            <span class="badge bg-secondary">Draft</span>
+                        {% elif req.status == "pending" %}
+                            <span class="badge bg-warning">Pending</span>
+                        {% elif req.status == "approved" %}
+                            <span class="badge bg-success">Approved</span>
+                        {% elif req.status == "rejected" %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% elif req.status == "completed" %}
+                            <span class="badge bg-info">Completed</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ req.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ req.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="/employee/requests/{{ req.id }}" class="btn btn-sm btn-primary">View</a>
+                        {% if req.status == "draft" %}
+                            <a href="/employee/requests/{{ req.id }}/edit" class="btn btn-sm btn-secondary">Edit</a>
+                            <form action="/employee/requests/{{ req.id }}/submit" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                            </form>
+                            <form action="/employee/requests/{{ req.id }}/delete" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
