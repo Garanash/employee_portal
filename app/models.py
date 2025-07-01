@@ -40,9 +40,9 @@ class User(Base):
     role = Column(SQLEnum(UserRole), default=UserRole.EMPLOYEE)
     manager_id = Column(Integer, ForeignKey("users.id"), nullable=True)
 
-    requests = relationship("Request", back_populates="owner")
-    managed_requests = relationship("Request", back_populates="manager")
-    hr_requests = relationship("Request", back_populates="hr_officer")
+    requests = relationship("Request", back_populates="owner", foreign_keys="Request.owner_id")
+    managed_requests = relationship("Request", back_populates="manager", foreign_keys="Request.manager_id")
+    hr_requests = relationship("Request", back_populates="hr_officer", foreign_keys="Request.hr_officer_id")
     subordinates = relationship("User", remote_side=[id])
 
 

@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from .database import engine, Base
 from .routes import admin, auth, employee, hr, manager, common
+import os
 
 Base.metadata.create_all(bind=engine)
 

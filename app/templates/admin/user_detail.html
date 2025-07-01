@@ -4,32 +4,32 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Edit User: {{ target_user.full_name }}</h2>
+    <h2>Редактировать пользователя: {{ target_user.full_name }}</h2>
     
-    <form method="post">
+    <form method="post" action="/admin/users/{{ target_user.id }}/update">
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="full_name" class="form-label">Full Name</label>
+                <label for="full_name" class="form-label">Фамилия Имя Отчество</label>
                 <input type="text" class="form-control" id="full_name" name="full_name" value="{{ target_user.full_name }}" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label">Электронная почта</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{ target_user.email }}" required>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="department" class="form-label">Department</label>
+                <label for="department" class="form-label">Департамент</label>
                 <input type="text" class="form-control" id="department" name="department" value="{{ target_user.department }}" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="position" class="form-label">Position</label>
+                <label for="position" class="form-label">Должность</label>
                 <input type="text" class="form-control" id="position" name="position" value="{{ target_user.position }}" required>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="role" class="form-label">Role</label>
+                <label for="role" class="form-label">Роль</label>
                 <select class="form-select" id="role" name="role" required>
                     {% for role in roles %}
                         <option value="{{ role }}" {% if role == target_user.role %}selected{% endif %}>{{ role|title }}</option>
@@ -37,9 +37,9 @@
                 </select>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="manager_id" class="form-label">Manager</label>
+                <label for="manager_id" class="form-label">Руководитель</label>
                 <select class="form-select" id="manager_id" name="manager_id">
-                    <option value="">None</option>
+                    <option value="">Нет</option>
                     {% for manager in managers %}
                         <option value="{{ manager.id }}" {% if manager.id == target_user.manager_id %}selected{% endif %}>
                             {{ manager.full_name }} ({{ manager.department }})
@@ -50,10 +50,10 @@
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" {% if target_user.is_active %}checked{% endif %}>
-            <label class="form-check-label" for="is_active">Active</label>
+            <label class="form-check-label" for="is_active">Активен</label>
         </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="/admin/users" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="/admin/users" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
 {% endblock %}

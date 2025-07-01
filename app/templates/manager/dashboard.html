@@ -4,27 +4,27 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Manager Dashboard</h2>
-    <p>Welcome, {{ user.full_name }} (Manager)</p>
+    <h2>Панель менеджера</h2>
+    <p>Добро пожаловать, {{ user.full_name }} (Менеджер)</p>
     
     <div class="row mt-4">
         <div class="col-md-6">
             <div class="card text-white bg-warning mb-3">
-                <div class="card-header">Pending Requests</div>
+                <div class="card-header">Ожидающие заявки</div>
                 <div class="card-body">
                     <h5 class="card-title">{{ pending_count }}</h5>
-                    <p class="card-text">Requests waiting for approval</p>
-                    <a href="/manager/requests" class="btn btn-light">Review Requests</a>
+                    <p class="card-text">Заявки, ожидающие утверждения</p>
+                    <a href="/manager/requests" class="btn btn-light">Просмотреть заявки</a>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card text-white bg-success mb-3">
-                <div class="card-header">Approved Requests</div>
+                <div class="card-header">Одобренные заявки</div>
                 <div class="card-body">
                     <h5 class="card-title">{{ approved_count }}</h5>
-                    <p class="card-text">Requests approved this month</p>
-                    <a href="/manager/requests" class="btn btn-light">View Requests</a>
+                    <p class="card-text">Заявки, утверждённые в этом месяце</p>
+                    <a href="/manager/requests" class="btn btn-light">Список заявок</a>
                 </div>
             </div>
         </div>

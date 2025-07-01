@@ -73,3 +73,6 @@ class RequestUpdate(BaseModel):
     manager_comment: Optional[str]
     hr_comment: Optional[str]
     documents: Optional[str]
+
+class TokenData(BaseModel):
+    email: Optional[str] = None

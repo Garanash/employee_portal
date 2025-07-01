@@ -5,13 +5,13 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0">Login</h4>
+                <h4 class="mb-0">Вход в систему</h4>
             </div>
             <div class="card-body">
                 {% if error %}
                 <div class="alert alert-danger">{{ error }}</div>
                 {% endif %}
-                <form method="post">
+                <form method="post" action="/auth/login">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>

@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Cookie
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -38,19 +38,35 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+async def get_current_user(
+    db: Session = Depends(get_db),
+    access_token_cookie: str = Cookie(None, alias="access_token")
+):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    token = None
+    if access_token_cookie:
+        if access_token_cookie.startswith("Bearer "):
+            token = access_token_cookie[len("Bearer ") :]
+        else:
+            token = access_token_cookie
+    print("TOKEN:", token)
+    if not token:
+        raise credentials_exception
+
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        print("PAYLOAD:", payload)
         email: str = payload.get("sub")
         if email is None:
+            print("NO EMAIL IN PAYLOAD")
             raise credentials_exception
         token_data = schemas.TokenData(email=email)
-    except JWTError:
+    except Exception as e:
+        print("JWT DECODE ERROR:", e)
         raise credentials_exception
 
     user = db.query(models.User).filter(models.User.email == token_data.email).first()

@@ -4,18 +4,18 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Employee Dashboard</h2>
-    <p>Welcome, {{ user.full_name }}</p>
+    <h2>Панель сотрудника</h2>
+    <p>Добро пожаловать, {{ user.full_name }}</p>
 
     <div class="row mt-4">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    Quick Actions
+                    Быстрые действия
                 </div>
                 <div class="card-body">
-                    <a href="/employee/requests/new" class="btn btn-primary mb-2">Create New Request</a>
-                    <a href="/employee/requests" class="btn btn-secondary mb-2">View My Requests</a>
+                    <a href="/employee/requests/new" class="btn btn-primary mb-2">Создать новую заявку</a>
+                    <a href="/employee/requests" class="btn btn-secondary mb-2">Посмотреть мои заявки</a>
                 </div>
             </div>
         </div>
@@ -23,11 +23,11 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    My Requests Summary
+                    Сводка моих заявок
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <h5>Pending/Approved Requests: {{ pending_requests }}</h5>
+                        <h5>Заявки, ожидающие рассмотрения: {{ pending_requests }}</h5>
                     </div>
                     <div class="progress">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 25%"></div>
@@ -35,6 +35,7 @@
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 25%"></div>
                         <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
                     </div>
+                    <p class="card-text">Заявки, рассмотренные в этом месяце</p>
                 </div>
             </div>
         </div>

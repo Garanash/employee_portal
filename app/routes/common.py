@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import User
 from ..auth import get_current_user
-from ..utils import render_template
+from ..utils import templates
 
 router = APIRouter()
 
@@ -14,8 +14,7 @@ async def user_profile(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    return render_template(
-        request,
+    return templates.TemplateResponse(
         "common/profile.html",
-        {"user": current_user}
+        {"request": request, "user": current_user}
     )

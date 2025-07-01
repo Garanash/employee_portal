@@ -5,7 +5,7 @@ from datetime import datetime
 from ..database import get_db
 from ..models import User, Request, RequestStatus
 from ..auth import get_current_user, check_manager
-from ..utils import render_template
+from ..utils import templates
 
 router = APIRouter()
 
@@ -28,14 +28,10 @@ async def manager_dashboard(
         Request.status == RequestStatus.APPROVED
     ).count()
 
-    return render_template(
-        request,
+    requests = db.query(Request).filter(Request.manager_id == current_user.id).all()
+    return templates.TemplateResponse(
         "manager/dashboard.html",
-        {
-            "user": current_user,
-            "pending_count": pending_count,
-            "approved_count": approved_count
-        }
+        {"request": request, "user": current_user, "requests": requests, "pending_count": pending_count, "approved_count": approved_count}
     )
 
 
@@ -52,14 +48,9 @@ async def list_requests(
         Request.status.in_([RequestStatus.PENDING, RequestStatus.APPROVED, RequestStatus.REJECTED])
     ).order_by(Request.created_at.desc()).all()
 
-    return render_template(
-        request,
+    return templates.TemplateResponse(
         "manager/requests.html",
-        {
-            "user": current_user,
-            "requests": requests,
-            "RequestStatus": RequestStatus
-        }
+        {"request": request, "user": current_user, "requests": requests, "RequestStatus": RequestStatus}
     )
 
 
@@ -80,14 +71,9 @@ async def request_detail(
     if not request_obj:
         raise HTTPException(status_code=404, detail="Request not found")
 
-    return render_template(
-        request,
+    return templates.TemplateResponse(
         "manager/request_detail.html",
-        {
-            "user": current_user,
-            "req": request_obj,
-            "RequestStatus": RequestStatus
-        }
+        {"request": request, "user": current_user, "req": request_obj, "RequestStatus": RequestStatus}
     )
 
 

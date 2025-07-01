@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import User, UserRole
 from ..auth import get_current_user, check_admin
-from ..utils import render_template
+from ..utils import render_template, templates
 
 router = APIRouter()
 
@@ -127,3 +127,9 @@ async def delete_user(
     db.commit()
 
     return RedirectResponse(url="/admin/users", status_code=303)
+
+
+@router.get("/departments", response_class=HTMLResponse)
+async def manage_departments(request: Request, current_user: User = Depends(get_current_user)):
+    check_admin(current_user)
+    return templates.TemplateResponse("admin/departments.html", {"request": request, "user": current_user})

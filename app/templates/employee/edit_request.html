@@ -4,23 +4,24 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Edit Request #{{ req.id }}</h2>
+    <h2>Редактировать заявку №{{ req.id }}</h2>
     
-    <form method="post">
+    <form method="post" action="/employee/requests/{{ req.id }}/edit">
         <div class="mb-3">
-            <label for="request_type" class="form-label">Request Type</label>
+            <label for="request_type" class="form-label">Тип заявки</label>
             <select class="form-select" id="request_type" name="request_type" required>
+                <option value="" disabled>Выберите тип заявки</option>
                 {% for type in types %}
                     <option value="{{ type }}" {% if type == req.type %}selected{% endif %}>{{ type|title }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
+            <label for="content" class="form-label">Содержание</label>
             <textarea class="form-control" id="content" name="content" rows="5" required>{{ req.content }}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="/employee/requests/{{ req.id }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="/employee/requests" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
 {% endblock %}

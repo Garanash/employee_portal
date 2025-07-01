@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Профиль пользователя</h2>
+    <table class="table table-bordered mt-3">
+        <tr>
+            <th>Идентификатор</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th>Фамилия Имя Отчество</th>
+            <td>{{ user.full_name }}</td>
+        </tr>
+        <tr>
+            <th>Электронная почта</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>Департамент</th>
+            <td>{{ user.department }}</td>
+        </tr>
+        <tr>
+            <th>Должность</th>
+            <td>{{ user.position }}</td>
+        </tr>
+        <tr>
+            <th>Роль</th>
+            <td>{{ user.role }}</td>
+        </tr>
+        <tr>
+            <th>Активен</th>
+            <td>{{ 'Да' if user.is_active else 'Нет' }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %} 

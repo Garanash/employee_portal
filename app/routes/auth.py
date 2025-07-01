@@ -12,14 +12,14 @@ from ..auth import (
     get_password_hash,
 )
 from ..config import settings
-from ..utils import render_template, get_user_dashboard_route
+from ..utils import templates, get_user_dashboard_route
 
 router = APIRouter()
 
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: StarletteRequest):
-    return render_template(request, "auth/login.html", {"user": None})
+    return templates.TemplateResponse("auth/login.html", {"request": request, "user": None})
 
 
 @router.post("/login")
@@ -31,10 +31,9 @@ async def login(
 ):
     user = authenticate_user(db, email, password)
     if not user:
-        return render_template(
-            request,
+        return templates.TemplateResponse(
             "auth/login.html",
-            {"error": "Invalid email or password", "user": None},
+            {"request": request, "error": "Invalid email or password", "user": None},
             status_code=401
         )
 
@@ -50,6 +49,7 @@ async def login(
         httponly=True,
         max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         secure=False,  # Set to True in production with HTTPS
+        path="/"
     )
     return response
 
@@ -63,7 +63,7 @@ async def logout():
 
 @router.get("/register", response_class=HTMLResponse)
 async def register_page(request: StarletteRequest):
-    return render_template(request, "auth/register.html", {"user": None})
+    return templates.TemplateResponse("auth/register.html", {"request": request, "user": None})
 
 
 @router.post("/register")
@@ -78,19 +78,17 @@ async def register(
         db: Session = Depends(get_db)
 ):
     if password != confirm_password:
-        return render_template(
-            request,
+        return templates.TemplateResponse(
             "auth/register.html",
-            {"error": "Passwords do not match", "user": None},
+            {"request": request, "error": "Passwords do not match", "user": None},
             status_code=400
         )
 
     existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
-        return render_template(
-            request,
+        return templates.TemplateResponse(
             "auth/register.html",
-            {"error": "Email already registered", "user": None},
+            {"request": request, "error": "Email already registered", "user": None},
             status_code=400
         )
 

@@ -4,19 +4,19 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Requests for Approval</h2>
+    <h2>Заявки на утверждение</h2>
     
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Employee</th>
-                    <th>Status</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
+                    <th>Идентификатор</th>
+                    <th>Тип</th>
+                    <th>Сотрудник</th>
+                    <th>Статус</th>
+                    <th>Создано</th>
+                    <th>Обновлено</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,22 +27,24 @@
                     <td>{{ req.owner.full_name }}</td>
                     <td>
                         {% if req.status == "pending" %}
-                            <span class="badge bg-warning">Pending</span>
+                            <span class="badge bg-warning">Ожидает</span>
                         {% elif req.status == "approved" %}
-                            <span class="badge bg-success">Approved</span>
+                            <span class="badge bg-success">Одобрено</span>
                         {% elif req.status == "rejected" %}
-                            <span class="badge bg-danger">Rejected</span>
+                            <span class="badge bg-danger">Отклонено</span>
                         {% endif %}
                     </td>
                     <td>{{ req.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
                     <td>{{ req.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
                     <td>
-                        <a href="/manager/requests/{{ req.id }}" class="btn btn-sm btn-primary">Review</a>
+                        <a href="/manager/requests/{{ req.id }}" class="btn btn-sm btn-primary">Просмотреть</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    <a href="/manager/requests" class="btn btn-light">Просмотреть заявки</a>
+    <a href="/manager/requests" class="btn btn-light">Список заявок</a>
 </div>
 {% endblock %}
