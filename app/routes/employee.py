@@ -10,7 +10,7 @@ from ..utils import render_template
 router = APIRouter()
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse, response_model=Request)
 async def employee_dashboard(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -31,7 +31,7 @@ async def employee_dashboard(
     )
 
 
-@router.get("/requests", response_class=HTMLResponse)
+@router.get("/requests", response_class=HTMLResponse, response_model=Request)
 async def list_requests(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -52,7 +52,7 @@ async def list_requests(
     )
 
 
-@router.get("/requests/new", response_class=HTMLResponse)
+@router.get("/requests/new", response_class=HTMLResponse, response_model=Request)
 async def create_request_form(
         request: Request,
         current_user: User = Depends(get_current_user)
@@ -89,7 +89,7 @@ async def create_request(
     return RedirectResponse(url="/employee/requests", status_code=303)
 
 
-@router.get("/requests/{request_id}", response_class=HTMLResponse)
+@router.get("/requests/{request_id}", response_class=HTMLResponse, response_model=Request)
 async def request_detail(
         request: Request,
         request_id: int,
@@ -115,7 +115,7 @@ async def request_detail(
     )
 
 
-@router.get("/requests/{request_id}/edit", response_class=HTMLResponse)
+@router.get("/requests/{request_id}/edit", response_class=HTMLResponse, response_model=Request)
 async def edit_request_form(
         request: Request,
         request_id: int,
@@ -167,7 +167,7 @@ async def update_request(
     return RedirectResponse(url=f"/employee/requests/{request_id}", status_code=303)
 
 
-@router.post("/requests/{request_id}/submit")
+@router.post("/requests/{request_id}/submit", response_model=Request)
 async def submit_request(
         request: Request,
         request_id: int,
@@ -190,7 +190,7 @@ async def submit_request(
     return RedirectResponse(url=f"/employee/requests/{request_id}", status_code=303)
 
 
-@router.post("/requests/{request_id}/delete")
+@router.post("/requests/{request_id}/delete", response_model=Request)
 async def delete_request(
         request: Request,
         request_id: int,

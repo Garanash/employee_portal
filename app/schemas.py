@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
-from datetime import datetime
-from typing import Optional
 from enum import Enum
+from typing import Optional
+from datetime import datetime
 
 class UserRole(str, Enum):
     ADMIN = "admin"
@@ -9,17 +9,17 @@ class UserRole(str, Enum):
     MANAGER = "manager"
     EMPLOYEE = "employee"
 
+class RequestType(str, Enum):
+    VACATION = "vacation"
+    TERMINATION = "termination"
+    PAYMENT = "payment"
+
 class RequestStatus(str, Enum):
     DRAFT = "draft"
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
     COMPLETED = "completed"
-
-class RequestType(str, Enum):
-    VACATION = "vacation"
-    TERMINATION = "termination"
-    PAYMENT = "payment"
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -45,9 +45,6 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-class TokenData(BaseModel):
-    email: Optional[str] = None
-
 class RequestBase(BaseModel):
     type: RequestType
     content: str
@@ -55,7 +52,7 @@ class RequestBase(BaseModel):
 class RequestCreate(RequestBase):
     pass
 
-class Request(RequestBase):
+class RequestInDB(RequestBase):
     id: int
     status: RequestStatus
     created_at: datetime

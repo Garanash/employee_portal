@@ -9,7 +9,7 @@ from ..utils import render_template
 router = APIRouter()
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse, response_model=Request)
 async def admin_dashboard(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -31,7 +31,7 @@ async def admin_dashboard(
     )
 
 
-@router.get("/users", response_class=HTMLResponse)
+@router.get("/users", response_class=HTMLResponse, response_model=Request)
 async def list_users(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -47,7 +47,7 @@ async def list_users(
     )
 
 
-@router.get("/users/{user_id}", response_class=HTMLResponse)
+@router.get("/users/{user_id}", response_class=HTMLResponse, response_model=Request)
 async def user_detail(
         request: Request,
         user_id: int,
@@ -107,7 +107,7 @@ async def update_user(
     return RedirectResponse(url=f"/admin/users/{user_id}", status_code=303)
 
 
-@router.post("/users/{user_id}/delete")
+@router.post("/users/{user_id}/delete", response_model=Request)
 async def delete_user(
         request: Request,
         user_id: int,

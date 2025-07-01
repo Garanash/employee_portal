@@ -1,29 +1,33 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Text, Enum
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, Text
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .database import Base
-import enum
+from enum import Enum
 
 
-class UserRole(str, enum.Enum):
+# Определяем enum для типов ролей пользователей
+class UserRole(str, Enum):
     ADMIN = "admin"
     HR = "hr"
     MANAGER = "manager"
     EMPLOYEE = "employee"
 
 
-class RequestStatus(str, enum.Enum):
+# Определяем enum для типов запросов
+class RequestType(str, Enum):
+    VACATION = "vacation"
+    TERMINATION = "termination"
+    PAYMENT = "payment"
+
+
+# Определяем enum для статусов запросов
+class RequestStatus(str, Enum):
     DRAFT = "draft"
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
     COMPLETED = "completed"
-
-
-class RequestType(str, enum.Enum):
-    VACATION = "vacation"
-    TERMINATION = "termination"
-    PAYMENT = "payment"
 
 
 class User(Base):
@@ -36,7 +40,7 @@ class User(Base):
     department = Column(String)
     position = Column(String)
     is_active = Column(Boolean, default=True)
-    role = Column(Enum(UserRole), default=UserRole.EMPLOYEE)
+    role = Column(SQLEnum(UserRole), default=UserRole.EMPLOYEE)  # Используем SQLEnum
     manager_id = Column(Integer, ForeignKey("users.id"), nullable=True)
 
     requests = relationship("Request", back_populates="owner")
@@ -49,12 +53,12 @@ class Request(Base):
     __tablename__ = "requests"
 
     id = Column(Integer, primary_key=True, index=True)
-    type = Column(Enum(RequestType))
-    status = Column(Enum(RequestStatus), default=RequestStatus.DRAFT)
+    type = Column(SQLEnum(RequestType))  # Используем SQLEnum
+    status = Column(SQLEnum(RequestStatus), default=RequestStatus.DRAFT)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     content = Column(Text)
-    documents = Column(Text, nullable=True)  # JSON with document paths
+    documents = Column(Text, nullable=True)
     manager_comment = Column(Text, nullable=True)
     hr_comment = Column(Text, nullable=True)
 

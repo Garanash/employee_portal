@@ -10,7 +10,7 @@ from ..utils import render_template
 router = APIRouter()
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse, response_model=Request)
 async def manager_dashboard(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -39,7 +39,7 @@ async def manager_dashboard(
     )
 
 
-@router.get("/requests", response_class=HTMLResponse)
+@router.get("/requests", response_class=HTMLResponse, response_model=Request)
 async def list_requests(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -63,7 +63,7 @@ async def list_requests(
     )
 
 
-@router.get("/requests/{request_id}", response_class=HTMLResponse)
+@router.get("/requests/{request_id}", response_class=HTMLResponse, response_model=Request)
 async def request_detail(
         request: Request,
         request_id: int,
@@ -91,7 +91,7 @@ async def request_detail(
     )
 
 
-@router.post("/requests/{request_id}/approve")
+@router.post("/requests/{request_id}/approve", response_model=Request)
 async def approve_request(
         request: Request,
         request_id: int,
@@ -118,7 +118,7 @@ async def approve_request(
     return RedirectResponse(url=f"/manager/requests/{request_id}", status_code=303)
 
 
-@router.post("/requests/{request_id}/reject")
+@router.post("/requests/{request_id}/reject", response_model=Request)
 async def reject_request(
         request: Request,
         request_id: int,

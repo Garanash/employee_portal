@@ -10,7 +10,7 @@ from ..utils import render_template
 router = APIRouter()
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse, response_model=Request)
 async def hr_dashboard(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -37,7 +37,7 @@ async def hr_dashboard(
     )
 
 
-@router.get("/requests", response_class=HTMLResponse)
+@router.get("/requests", response_class=HTMLResponse, response_model=Request)
 async def list_requests(
         request: Request,
         current_user: User = Depends(get_current_user),
@@ -60,7 +60,7 @@ async def list_requests(
     )
 
 
-@router.get("/requests/{request_id}", response_class=HTMLResponse)
+@router.get("/requests/{request_id}", response_class=HTMLResponse, response_model=Request)
 async def request_detail(
         request: Request,
         request_id: int,
@@ -88,7 +88,7 @@ async def request_detail(
     )
 
 
-@router.get("/requests/{request_id}/process", response_class=HTMLResponse)
+@router.get("/requests/{request_id}/process", response_class=HTMLResponse, response_model=Request)
 async def process_request_form(
         request: Request,
         request_id: int,
@@ -115,7 +115,7 @@ async def process_request_form(
     )
 
 
-@router.post("/requests/{request_id}/complete")
+@router.post("/requests/{request_id}/complete", response_model=Request)
 async def complete_request(
         request: Request,
         request_id: int,

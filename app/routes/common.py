@@ -8,7 +8,7 @@ from ..utils import render_template
 
 router = APIRouter()
 
-@router.get("/profile", response_class=HTMLResponse)
+@router.get("/profile", response_class=HTMLResponse, response_model=Request)
 async def user_profile(
     request: Request,
     current_user: User = Depends(get_current_user),

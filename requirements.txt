@@ -6,4 +6,4 @@ passlib==1.7.4
 python-multipart==0.0.6
 jinja2==3.1.2
 python-dotenv==1.0.0
-pydantic==1.10.7  # Добавьте эту строку
+pydantic==1.10.13

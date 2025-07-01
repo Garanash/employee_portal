@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from ..database import get_db
@@ -17,7 +17,7 @@ from ..utils import render_template, get_user_dashboard_route
 router = APIRouter()
 
 
-@router.get("/login", response_class=HTMLResponse)
+@router.get("/login", response_class=HTMLResponse, response_model=Request)
 async def login_page(request: Request):
     return render_template(request, "auth/login.html")
 
@@ -54,14 +54,14 @@ async def login(
     return response
 
 
-@router.get("/logout")
+@router.get("/logout", response_model=Request)
 async def logout():
     response = RedirectResponse(url="/auth/login", status_code=303)
     response.delete_cookie("access_token")
     return response
 
 
-@router.get("/register", response_class=HTMLResponse)
+@router.get("/register", response_class=HTMLResponse, response_model=Request)
 async def register_page(request: Request):
     return render_template(request, "auth/register.html")
 
