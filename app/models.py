@@ -6,7 +6,6 @@ from .database import Base
 from enum import Enum
 
 
-# Определяем enum для типов ролей пользователей
 class UserRole(str, Enum):
     ADMIN = "admin"
     HR = "hr"
@@ -14,14 +13,12 @@ class UserRole(str, Enum):
     EMPLOYEE = "employee"
 
 
-# Определяем enum для типов запросов
 class RequestType(str, Enum):
     VACATION = "vacation"
     TERMINATION = "termination"
     PAYMENT = "payment"
 
 
-# Определяем enum для статусов запросов
 class RequestStatus(str, Enum):
     DRAFT = "draft"
     PENDING = "pending"
@@ -40,7 +37,7 @@ class User(Base):
     department = Column(String)
     position = Column(String)
     is_active = Column(Boolean, default=True)
-    role = Column(SQLEnum(UserRole), default=UserRole.EMPLOYEE)  # Используем SQLEnum
+    role = Column(SQLEnum(UserRole), default=UserRole.EMPLOYEE)
     manager_id = Column(Integer, ForeignKey("users.id"), nullable=True)
 
     requests = relationship("Request", back_populates="owner")
@@ -53,7 +50,7 @@ class Request(Base):
     __tablename__ = "requests"
 
     id = Column(Integer, primary_key=True, index=True)
-    type = Column(SQLEnum(RequestType))  # Используем SQLEnum
+    type = Column(SQLEnum(RequestType))
     status = Column(SQLEnum(RequestStatus), default=RequestStatus.DRAFT)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
