@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Form
+from fastapi import APIRouter, Depends, HTTPException, Request as StarletteRequest, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from datetime import timedelta
@@ -17,14 +17,14 @@ from ..utils import render_template, get_user_dashboard_route
 router = APIRouter()
 
 
-@router.get("/login", response_class=HTMLResponse, response_model=Request)
-async def login_page(request: Request):
-    return render_template(request, "auth/login.html")
+@router.get("/login", response_class=HTMLResponse)
+async def login_page(request: StarletteRequest):
+    return render_template(request, "auth/login.html", {"user": None})
 
 
 @router.post("/login")
 async def login(
-        request: Request,
+        request: StarletteRequest,
         email: str = Form(...),
         password: str = Form(...),
         db: Session = Depends(get_db)
@@ -34,7 +34,7 @@ async def login(
         return render_template(
             request,
             "auth/login.html",
-            {"error": "Invalid email or password"},
+            {"error": "Invalid email or password", "user": None},
             status_code=401
         )
 
@@ -54,21 +54,21 @@ async def login(
     return response
 
 
-@router.get("/logout", response_model=Request)
+@router.get("/logout")
 async def logout():
     response = RedirectResponse(url="/auth/login", status_code=303)
     response.delete_cookie("access_token")
     return response
 
 
-@router.get("/register", response_class=HTMLResponse, response_model=Request)
-async def register_page(request: Request):
-    return render_template(request, "auth/register.html")
+@router.get("/register", response_class=HTMLResponse)
+async def register_page(request: StarletteRequest):
+    return render_template(request, "auth/register.html", {"user": None})
 
 
 @router.post("/register")
 async def register(
-        request: Request,
+        request: StarletteRequest,
         email: str = Form(...),
         full_name: str = Form(...),
         password: str = Form(...),
@@ -81,7 +81,7 @@ async def register(
         return render_template(
             request,
             "auth/register.html",
-            {"error": "Passwords do not match"},
+            {"error": "Passwords do not match", "user": None},
             status_code=400
         )
 
@@ -90,7 +90,7 @@ async def register(
         return render_template(
             request,
             "auth/register.html",
-            {"error": "Email already registered"},
+            {"error": "Email already registered", "user": None},
             status_code=400
         )
 

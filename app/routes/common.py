@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request as StarletteRequest, Form
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from ..database import get_db
@@ -8,9 +8,9 @@ from ..utils import render_template
 
 router = APIRouter()
 
-@router.get("/profile", response_class=HTMLResponse, response_model=Request)
+@router.get("/profile", response_class=HTMLResponse)
 async def user_profile(
-    request: Request,
+    request: StarletteRequest,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

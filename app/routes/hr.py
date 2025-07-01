@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Form
+from fastapi import APIRouter, Depends, HTTPException, Request as StarletteRequest, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from datetime import datetime
@@ -10,9 +10,9 @@ from ..utils import render_template
 router = APIRouter()
 
 
-@router.get("/dashboard", response_class=HTMLResponse, response_model=Request)
+@router.get("/dashboard", response_class=HTMLResponse)
 async def hr_dashboard(
-        request: Request,
+        request: StarletteRequest,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
 ):
@@ -37,9 +37,9 @@ async def hr_dashboard(
     )
 
 
-@router.get("/requests", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests", response_class=HTMLResponse)
 async def list_requests(
-        request: Request,
+        request: StarletteRequest,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
 ):
@@ -60,9 +60,9 @@ async def list_requests(
     )
 
 
-@router.get("/requests/{request_id}", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests/{request_id}", response_class=HTMLResponse)
 async def request_detail(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
@@ -88,9 +88,9 @@ async def request_detail(
     )
 
 
-@router.get("/requests/{request_id}/process", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests/{request_id}/process", response_class=HTMLResponse)
 async def process_request_form(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
@@ -115,9 +115,9 @@ async def process_request_form(
     )
 
 
-@router.post("/requests/{request_id}/complete", response_model=Request)
+@router.post("/requests/{request_id}/complete")
 async def complete_request(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         comment: str = Form(None),
         current_user: User = Depends(get_current_user),

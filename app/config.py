@@ -1,4 +1,4 @@
-from pydantic import BaseSettings  # Не pydantic_settings!
+from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./employee_portal.db"

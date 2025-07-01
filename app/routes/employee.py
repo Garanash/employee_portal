@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Form
+from fastapi import APIRouter, Depends, HTTPException, Request as StarletteRequest, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from datetime import datetime
@@ -10,9 +10,9 @@ from ..utils import render_template
 router = APIRouter()
 
 
-@router.get("/dashboard", response_class=HTMLResponse, response_model=Request)
+@router.get("/dashboard", response_class=HTMLResponse)
 async def employee_dashboard(
-        request: Request,
+        request: StarletteRequest,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
 ):
@@ -31,9 +31,9 @@ async def employee_dashboard(
     )
 
 
-@router.get("/requests", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests", response_class=HTMLResponse)
 async def list_requests(
-        request: Request,
+        request: StarletteRequest,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
 ):
@@ -52,9 +52,9 @@ async def list_requests(
     )
 
 
-@router.get("/requests/new", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests/new", response_class=HTMLResponse)
 async def create_request_form(
-        request: Request,
+        request: StarletteRequest,
         current_user: User = Depends(get_current_user)
 ):
     return render_template(
@@ -69,7 +69,7 @@ async def create_request_form(
 
 @router.post("/requests/new")
 async def create_request(
-        request: Request,
+        request: StarletteRequest,
         request_type: str = Form(...),
         content: str = Form(...),
         current_user: User = Depends(get_current_user),
@@ -89,9 +89,9 @@ async def create_request(
     return RedirectResponse(url="/employee/requests", status_code=303)
 
 
-@router.get("/requests/{request_id}", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests/{request_id}", response_class=HTMLResponse)
 async def request_detail(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
@@ -115,9 +115,9 @@ async def request_detail(
     )
 
 
-@router.get("/requests/{request_id}/edit", response_class=HTMLResponse, response_model=Request)
+@router.get("/requests/{request_id}/edit", response_class=HTMLResponse)
 async def edit_request_form(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
@@ -144,7 +144,7 @@ async def edit_request_form(
 
 @router.post("/requests/{request_id}/edit")
 async def update_request(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         request_type: str = Form(...),
         content: str = Form(...),
@@ -167,9 +167,9 @@ async def update_request(
     return RedirectResponse(url=f"/employee/requests/{request_id}", status_code=303)
 
 
-@router.post("/requests/{request_id}/submit", response_model=Request)
+@router.post("/requests/{request_id}/submit")
 async def submit_request(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
@@ -190,9 +190,9 @@ async def submit_request(
     return RedirectResponse(url=f"/employee/requests/{request_id}", status_code=303)
 
 
-@router.post("/requests/{request_id}/delete", response_model=Request)
+@router.post("/requests/{request_id}/delete")
 async def delete_request(
-        request: Request,
+        request: StarletteRequest,
         request_id: int,
         current_user: User = Depends(get_current_user),
         db: Session = Depends(get_db)
