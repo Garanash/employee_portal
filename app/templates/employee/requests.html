@@ -7,7 +7,7 @@
     <h2>Мои заявки</h2>
     
     <div class="mb-3">
-        <a href="/employee/requests/new" class="btn btn-primary">Create New Request</a>
+        <a href="/employee/requests/new" class="btn btn-primary">Создать заявку</a>
     </div>
     
     <div class="table-responsive">
@@ -29,15 +29,15 @@
                     <td>{{ req.type }}</td>
                     <td>
                         {% if req.status == "draft" %}
-                            <span class="badge bg-secondary">Draft</span>
+                            <span class="badge bg-secondary">Черновик</span>
                         {% elif req.status == "pending" %}
-                            <span class="badge bg-warning">Pending</span>
+                            <span class="badge bg-warning">Ожидание</span>
                         {% elif req.status == "approved" %}
-                            <span class="badge bg-success">Approved</span>
+                            <span class="badge bg-success">Одобрено</span>
                         {% elif req.status == "rejected" %}
-                            <span class="badge bg-danger">Rejected</span>
+                            <span class="badge bg-danger">Отклонено</span>
                         {% elif req.status == "completed" %}
-                            <span class="badge bg-info">Completed</span>
+                            <span class="badge bg-info">Выполнено</span>
                         {% endif %}
                     </td>
                     <td>{{ req.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
@@ -45,12 +45,12 @@
                     <td>
                         <a href="/employee/requests/{{ req.id }}" class="btn btn-sm btn-primary">Просмотреть</a>
                         {% if req.status == "draft" %}
-                            <a href="/employee/requests/{{ req.id }}/edit" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="/employee/requests/{{ req.id }}/edit" class="btn btn-sm btn-secondary">Редактировать</a>
                             <form action="/employee/requests/{{ req.id }}/submit" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                <button type="submit" class="btn btn-sm btn-success">Отправить</button>
                             </form>
                             <form action="/employee/requests/{{ req.id }}/delete" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
                             </form>
                         {% endif %}
                     </td>
